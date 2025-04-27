@@ -1,70 +1,31 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# compiled output
-/dist
-/tmp
-/out-tsc
+#angular
+.angular/cache
+node_modules
 
-# dependencies
-/node_modules
-
-# IDEs and editors
-/.idea
-.project
+.apt_generated
 .classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.idea
+*.iws
+*.iml
+*.ipr
 
-# misc
-/.angular/cache
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-testem.log
-/typings
-
-# e2e
-/e2e/*.jsHELP.md
-         target/
-         !.mvn/wrapper/maven-wrapper.jar
-         !**/src/main/**/target/
-         !**/src/test/**/target/
-
-         .apt_generated
-         .classpath
-         .factorypath
-         .project
-         .settings
-         .springBeans
-         .sts4-cache
-
-         .idea
-         *.iws
-         *.iml
-         *.ipr
-
-         /nbproject/private/
-         /nbbuild/
-         /dist/
-         /nbdist/
-         /.nb-gradle/
-         build/
-         !**/src/main/**/build/
-         !**/src/test/**/build/
-
-/e2e/*.map
-
-# System Files
-.DS_Store
-Thumbs.db
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/

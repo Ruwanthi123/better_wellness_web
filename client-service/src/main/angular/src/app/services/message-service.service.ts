@@ -45,5 +45,9 @@ export class MessageServiceService implements Resolve<any> {
         }
     }
 
+    sendMessage(messagePayload: any) {
+        return this.httpClient.post<any>('http://localhost:8084/api/message/saveMessage', messagePayload);
+    }
+
 
 }
