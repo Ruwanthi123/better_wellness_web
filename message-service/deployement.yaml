@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: better-wellness
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-service
+  namespace: better-wellness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: message-service
+  template:
+    metadata:
+      labels:
+        app: message-service
+    spec:
+      containers:
+        - name: message-service
+          image: 750471540463.dkr.ecr.eu-north-1.amazonaws.com/message-service:latest
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: Asia/Colombo
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "125m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"    
+      automountServiceAccountToken: false   
+      imagePullSecrets:
+            - name: aws-ecr
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: message-service
+  namespace: better-wellness
+spec:
+  selector:
+    app: message-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8081
+  type: LoadBalancer
