@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold text-success" style="margin-right:970px" href="#">Better Wellness</a>
+
+<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+        <div style="width: 200px; height:30px; color: #0d6efd"></div>
+
+        <div id="navbarContent" class="collapse navbar-collapse">
+            <ul class="navbar-nav nav-right me-auto mb-2 mb-lg-0">
+                <li class="nav-item" *ngIf="!isAuthenticated">
+                    <a class="nav-link text-dark" routerLink="/signUp" routerLinkActive="active" >Sign up</a>
+                </li>
+                <li class="nav-item" *ngIf="!isAuthenticated">
+                    <a class="nav-link text-dark" routerLink="/signIn" routerLinkActive="active" >Sign in</a>
+                </li>
+                <li class="nav-item" *ngIf="isAuthenticated">
+                    <a class="nav-link text-dark" routerLink="/profile" routerLinkActive="active" >Profile</a>
+                </li>
+                <li class="nav-item" *ngIf="isAuthenticated">
+                    <a class="nav-link text-dark" routerLink="" (click)="signOut()" >Sign out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<router-outlet></router-outlet>

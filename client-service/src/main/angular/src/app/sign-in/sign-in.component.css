@@ -1,0 +1,51 @@
+/* Card Styling */
+.card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Input & Select Focus Styling */
+input:focus,
+select:focus {
+    border-color: seagreen;
+    box-shadow: 0 0 0 0.2rem rgba(46, 139, 87, 0.25); /* seagreen glow */
+}
+
+/* Button Styling */
+.btn-success {
+    background-color: seagreen;
+    border-color: seagreen;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Fullscreen Background Container */
+.wellness-background {
+    background: url('/assets/bc-image.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Transparent Glass-Style Form Container */
+.glass-container {
+    background-color: rgba(255, 255, 255, 0.88); /* semi-transparent white */
+    padding: 2rem;
+    border-radius: 1.25rem;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Headings */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}

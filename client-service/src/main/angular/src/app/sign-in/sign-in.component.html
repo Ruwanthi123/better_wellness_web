@@ -1,0 +1,35 @@
+<div class="wellness-background d-flex justify-content-center align-items-center">
+    <div class="glass-container">
+        <div class="row justify-content-center m-0">
+            <div class="col-12">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-4 text-center text-success">Welcome Back</h5>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" #email="ngModel" [(ngModel)]="user.email"
+                                   class="form-control form-control-sm shadow-sm rounded-3">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group input-group-sm shadow-sm rounded-3">
+                                <input [type]="user.showPassword ? 'text' : 'password'" id="password" name="password"
+                                       #password="ngModel" [(ngModel)]="user.password" class="form-control rounded-start-3">
+                                <button type="button" class="btn btn-outline-secondary rounded-end-3"
+                                        (click)="user.showPassword = !user.showPassword">
+                                    <i class="bi" [ngClass]="{'bi-eye-fill': !user.showPassword, 'bi-eye-slash-fill': user.showPassword}"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="button" (click)="signIn()" class="btn btn-success text-white rounded-3 shadow-sm">
+                                Sign in
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>

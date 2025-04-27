@@ -1,0 +1,21 @@
+<div class="chat-container">
+    <!-- Receiver's Name -->
+    <div class="chat-header">
+        <h5 style="text-align: left">{{ receiverName }}</h5>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="chat-messages" #scrollMe>
+        <div *ngFor="let message of messages"
+             [ngClass]="message.sender == loginUserID ? 'my-message' : 'other-message'">
+            <p>{{ message.content }}</p>
+            <small>{{ message.time | date:'shortTime' }}</small>
+        </div>
+    </div>
+
+    <!-- Input to send new message -->
+    <div class="chat-input">
+        <input type="text" [(ngModel)]="newMessage" placeholder="Type a message..." (keydown.enter)="sendMessage()"/>
+        <button (click)="sendMessage()">Send</button>
+    </div>
+</div>

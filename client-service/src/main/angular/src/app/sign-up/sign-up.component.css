@@ -1,0 +1,45 @@
+.card {
+    background-color: #fdfdfd;
+    border-radius: 1rem; /* smooth corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* soft shadow */
+}
+
+input:focus,
+select:focus {
+    border-color: #0dcaf0;
+    box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.25);
+}
+
+.btn-success {
+    background-color: seagreen;
+    border-color: seagreen;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.wellness-background {
+    background: url('/assets/bc-image.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.glass-container {
+    background-color: rgba(255, 255, 255, 0.88);
+    padding: 2rem;
+    border-radius: 1.25rem;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}

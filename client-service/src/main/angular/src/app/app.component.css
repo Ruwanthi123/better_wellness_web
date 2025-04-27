@@ -1,0 +1,23 @@
+.better-navbar {
+    background-color: #f8f9fa; /* Light background for visibility */
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.75rem 1.5rem;
+}
+
+.better-navbar .nav-link {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.better-navbar .nav-link:hover {
+    color: #0d6efd !important; /* Bootstrap primary */
+    text-decoration: underline;
+}
+
+.better-navbar .navbar-brand {
+    font-size: 1.25rem;
+}
+
+.nav-right {
+    margin-left: auto;
+}

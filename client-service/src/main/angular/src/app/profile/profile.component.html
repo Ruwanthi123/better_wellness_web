@@ -1,0 +1,43 @@
+    <div class="counsellor-data">
+        <div *isAuthorize="['Customer','Counsellor']">
+           <h3 style="margin-bottom: 50px">Hi..{{userDetails.name}}</h3>
+        </div>
+        <!-- 👇 Content only for Customers -->
+        <div *isAuthorize="['Customer']">
+        <div  *ngIf="counsellors && counsellors.length > 0; " >
+            <h5 class="mb-3">Counsellors List:</h5>
+
+            <div>
+                <div *ngFor="let counsellor of counsellors" class="col-12 mb-3">
+                    <div class="counsellor-card shadow-sm rounded-3">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+
+                            <!-- Counsellor Info -->
+                            <div class="d-flex align-items-center">
+                                <!-- Avatar Image -->
+                                <!-- <img src="/avatar.jpg" alt="Avatar" class="rounded-circle me-3" width="60" height="60"> -->
+
+                                <div>
+                                    <h6 class="card-title mb-1">{{ counsellor.name }}</h6>
+                                    <p class="card-text mb-0">
+                                        <small class="text-muted">{{ counsellor.email }}</small>
+                                    </p>
+                                    <p class="card-text">
+                                        <span class="badge bg-primary">{{ counsellor.role }}</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 👇 Chat Icon Button -->
+                            <button class="btn btn-outline-success btn-sm" (click)="openChat(counsellor)">
+                                <i class="bi bi-chat-dots"></i> Chat
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
