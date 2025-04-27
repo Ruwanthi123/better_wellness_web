@@ -26,5 +26,4 @@ public class MessagingController {
         List<Message> counsellors = this.messageService.getMessagesBySenderAndReceiver(request);
         return ResponseEntity.ok(counsellors);
     }
-
 }
