@@ -21,5 +21,5 @@ ENV PATH=$JAVA_HOME/bin:$PATH
 RUN java -version
 WORKDIR /home/app-user
 COPY target/message-service-1.0-SNAPSHOT.jar message-service-1.0-SNAPSHOT.jar
-EXPOSE 8081/tcp
+EXPOSE 8084/tcp
 CMD ["java", "-Xmx512m", "-server", "-Djava.awt.headless=true", "-Duser.timezone=Asia/Colombo", "-jar", "message-service-1.0-SNAPSHOT.jar"]
