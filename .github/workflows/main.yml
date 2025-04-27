@@ -1,0 +1,68 @@
+name: Better Wellness CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.18]
+    environment: better-wellness
+    env:
+      DOCKER_REPO_URL: ${{ secrets.REPO_URL }}
+      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      KUBE_NAMESPACE: better-wellness
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Deployment Environment
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Build Artifacts
+      run: mvn clean install -DskipTests
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ env.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ env.AWS_SECRET_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+        
+    - name: Build and Push Docker Images, Create Stack, Upload S3 Files
+      run: |
+        aws cloudformation create-stack --stack-name better-wellness-live --template-body file://amazon-eks.yaml --capabilities CAPABILITY_NAMED_IAM  --region $AWS_REGION
+        aws cloudformation wait stack-create-complete --stack-name better-wellness-live --region $AWS_REGION
+
+        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DOCKER_REPO_URL       
+
+        CURRENT_DATETIME=$(date +'%Y%m%d%H%M%S')
+        echo "CURRENT_DATETIME=$CURRENT_DATETIME" >> $GITHUB_ENV
+
+        for SERVICE_NAME in message-service profile-service; do
+          cd $SERVICE_NAME
+          docker build -t $SERVICE_NAME:$CURRENT_DATETIME .
+          docker tag $SERVICE_NAME:$CURRENT_DATETIME $DOCKER_REPO_URL/$SERVICE_NAME:$CURRENT_DATETIME
+          docker tag $SERVICE_NAME:$CURRENT_DATETIME $DOCKER_REPO_URL/$SERVICE_NAME:latest
+          docker push $DOCKER_REPO_URL/$SERVICE_NAME:$CURRENT_DATETIME
+          docker push $DOCKER_REPO_URL/$SERVICE_NAME:latest
+          cd ..
+        done
+
+        aws eks update-kubeconfig --region $AWS_REGION --name better-wellness-prod
+        cd client-service/src/main/angular/dist/jwt-angular/
+        aws s3 cp . s3://better-wellness-live/ --recursive
+        cd ../../../../../../
+        kubectl apply -f message-service/deployment.yaml -n ${{ env.KUBE_NAMESPACE }}
+        kubectl apply -f profile-service/deployment.yaml -n ${{ env.KUBE_NAMESPACE }}
