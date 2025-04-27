@@ -11,6 +11,7 @@ import {Subscription} from "rxjs";
 export class MessageViewComponent implements OnInit, OnDestroy {
 
     customerID: number | undefined;
+    selectedUserID: number | undefined;
     counsellorID: number | undefined;
     loginUserID: number | undefined;
     receiverName: String | undefined;
@@ -29,6 +30,7 @@ export class MessageViewComponent implements OnInit, OnDestroy {
             this.counsellorID = params['counsellorID'];
             this.loginUserID = params['loginUser'];
             this.receiverName = params['receiverName'];
+            this.selectedUserID = params['selectedUserID'];
 
             console.log('Customer ID:', this.customerID);
             console.log('Counsellor ID:', this.counsellorID);
@@ -41,7 +43,13 @@ export class MessageViewComponent implements OnInit, OnDestroy {
         this.OnMessageChangeSub =this.messageServiceService.OnMessagesChange.subscribe(
             (response) => {
                 if(!response.isEmpty){
-                    this.messages=response
+                    this.messages=response;
+                    // @ts-ignore
+                    for(let message of this.messages){
+                        const formattedTimestamp = message.timestamp.replace('T', ' ');
+                        message.time=formattedTimestamp;
+                    }
+
                 }
             }
         );
@@ -49,19 +57,40 @@ export class MessageViewComponent implements OnInit, OnDestroy {
 
     sendMessage() {
         if (this.newMessage.trim() !== '') {
-            // @ts-ignore
-            this.messages.push({
-                sender: this.loginUserID,
-                content: this.newMessage,
-                time: new Date()
-            });
-            this.newMessage = '';
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
 
-            setTimeout(() => {
-                this.scrollToBottom();
-            }, 100); // wait a little for DOM update
+            const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+            const messagePayload = {
+                sender: this.loginUserID,
+                receiver: this.selectedUserID,
+                content: this.newMessage,
+                timestamp: formattedDateTime
+            };
+
+            this.messageServiceService.sendMessage(messagePayload).subscribe({
+                next: (savedMessage) => {
+                    // @ts-ignore
+                    this.messages.push(savedMessage);
+                    this.newMessage = '';
+
+                    setTimeout(() => {
+                        this.scrollToBottom();
+                    }, 100);
+                },
+                error: (error) => {
+                    console.error('Failed to send message', error);
+                }
+            });
         }
     }
+
 
     scrollToBottom() {
         const chatMessagesDiv = document.querySelector('.chat-messages');

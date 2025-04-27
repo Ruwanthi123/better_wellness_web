@@ -57,13 +57,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     openChat(counsellor: any): void {
         console.log('Starting chat with counsellor:', counsellor);
-        //  Navigate to a chat page
         this.router.navigate(['/messageView'], {
             queryParams: {
                 customerID: this.userDetails.id,
                 counsellorID: counsellor.id,
                 loginUser: this.userDetails.id,
                 receiverName: counsellor.name,
+                selectedUserID: counsellor.id
             }
         });
     }

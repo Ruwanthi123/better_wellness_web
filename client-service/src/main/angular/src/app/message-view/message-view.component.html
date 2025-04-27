@@ -8,8 +8,9 @@
     <div class="chat-messages" #scrollMe>
         <div *ngFor="let message of messages"
              [ngClass]="message.sender == loginUserID ? 'my-message' : 'other-message'">
-            <p>{{ message.content }}</p>
-            <small>{{ message.time | date:'shortTime' }}</small>
+            <p style="margin-bottom: -3px">{{ message.content }}</p>
+            <small style="font-size: 11px">{{ message.time }}</small>
+<!--            <small>{{ message.time | date:'shortTime' }}</small>-->
         </div>
     </div>
 
