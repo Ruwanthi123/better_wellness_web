@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
+import { MSG_PREFIX } from '../constant/common-settings';
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +27,7 @@ export class MessageServiceService implements Resolve<any> {
 
     getAllMessages(sender: number | undefined, receiver: number | undefined) {
         if (sender != null && receiver != null) {
-            const url = 'http://localhost:8084/api/message/getMessagesBySenderAndReceiver';
+            const url = MSG_PREFIX + '/api/message/getMessagesBySenderAndReceiver';
             const body = {
                 sender: sender,
                 receiver: receiver
@@ -46,7 +47,7 @@ export class MessageServiceService implements Resolve<any> {
     }
 
     sendMessage(messagePayload: any) {
-        return this.httpClient.post<any>('http://localhost:8084/api/message/saveMessage', messagePayload);
+        return this.httpClient.post<any>(MSG_PREFIX +'/api/message/saveMessage', messagePayload);
     }
 
 

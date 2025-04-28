@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     OnCounsellorsChangeSub = new Subscription();
     OnLoginUserChangeSub = new Subscription();
     counsellors: ICounsellor[] | undefined
+    customers: ICounsellor[] | undefined
 
     constructor(private cognitoService: CognitoService, private profileServiceService: ProfileServiceService, private router: Router) {
     }
@@ -27,6 +28,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.user.role = user.attributes['custom:role'];
             this.profileServiceService.getLoginUserDetails(this.user.email)
             this.profileServiceService.getCounsellorsDetails(this.user.role);
+            this.profileServiceService.getCustomerDetails(this.user.role);
 
         });
 
@@ -38,6 +40,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 }
             }
         );
+
+        this.OnCounsellorsChangeSub = this.profileServiceService.OnCustomersFetchDataChange.subscribe(
+            (response) => {
+                if (!response.isEmpty) {
+                    this.customers = response
+                }
+            }
+        );
+
 
         // @ts-ignore
         this.OnLoginUserChangeSub = this.profileServiceService.OnLoginUserFetchDataChange.subscribe(
@@ -55,15 +66,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.OnLoginUserChangeSub.unsubscribe();
     }
 
-    openChat(counsellor: any): void {
-        console.log('Starting chat with counsellor:', counsellor);
+    openChat(selectedUser: any): void {
+        console.log('Starting chat with user:', selectedUser);
         this.router.navigate(['/messageView'], {
             queryParams: {
-                customerID: this.userDetails.id,
-                counsellorID: counsellor.id,
-                loginUser: this.userDetails.id,
-                receiverName: counsellor.name,
-                selectedUserID: counsellor.id
+                selectedUserID: selectedUser.id,
+                loginUserID: this.userDetails.id,
+                selectedUserName: selectedUser.name,
             }
         });
     }

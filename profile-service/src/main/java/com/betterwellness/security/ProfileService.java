@@ -32,4 +32,9 @@ public class ProfileService {
         String sql = "SELECT * FROM profile WHERE role = 'Counsellor'";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Profile.class));
     }
+
+    public List<Profile> getAllCustomers() {
+        String sql = "SELECT * FROM profile WHERE role = 'Customer'";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Profile.class));
+    }
 }

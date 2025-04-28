@@ -23,8 +23,17 @@ public class MessagingController {
 
     @PostMapping("/getMessagesBySenderAndReceiver")
     public ResponseEntity<List<Message>> getMessagesBySenderAndReceiver(@RequestBody MessageRequestDTO request) {
+        System.out.printf(" start : getMessagesBySenderAndReceiver",request);
         List<Message> counsellors = this.messageService.getMessagesBySenderAndReceiver(request);
+        System.out.printf(" end : getMessagesBySenderAndReceiver",request);
+
         return ResponseEntity.ok(counsellors);
+    }
+
+    @PostMapping("/saveMessage")
+    public ResponseEntity<Message> saveMessage(@RequestBody Message message) {
+        Message savedMessage = messageService.saveMessage(message);
+        return ResponseEntity.ok(savedMessage);
     }
 
 }

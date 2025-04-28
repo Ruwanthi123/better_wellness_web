@@ -1,7 +1,7 @@
 <div class="chat-container">
     <!-- Receiver's Name -->
     <div class="chat-header">
-        <h5 style="text-align: left">{{ receiverName }}</h5>
+        <h5 style="text-align: left">{{ selectedUserName }}</h5>
     </div>
 
     <!-- Chat Messages -->
@@ -9,8 +9,8 @@
         <div *ngFor="let message of messages"
              [ngClass]="message.sender == loginUserID ? 'my-message' : 'other-message'">
             <p style="margin-bottom: -3px">{{ message.content }}</p>
-            <small style="font-size: 11px">{{ message.time }}</small>
-<!--            <small>{{ message.time | date:'shortTime' }}</small>-->
+            <small style="font-size: 11px">{{ message.time | date:'short' }}</small>
+<!--            <small>{{ message.time | date:'short' }}</small>-->
         </div>
     </div>
 

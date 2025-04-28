@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -33,6 +35,9 @@ public class MessageService {
         );
     }
 
-
+    public Message saveMessage(Message message) {
+        message.setTimestamp(LocalDateTime.now());
+        return messageRepository.save(message);
+    }
 
 }

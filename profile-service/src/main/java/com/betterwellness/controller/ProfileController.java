@@ -36,4 +36,10 @@ public class ProfileController {
         return ResponseEntity.ok(counsellors);
     }
 
+    @GetMapping("/getAllCustomers")
+    public ResponseEntity<List<Profile>> getAllCustomers() {
+        List<Profile> counsellors = profileService.getAllCustomers();
+        return ResponseEntity.ok(counsellors);
+    }
+
 }

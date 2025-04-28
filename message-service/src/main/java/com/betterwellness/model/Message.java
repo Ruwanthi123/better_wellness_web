@@ -18,8 +18,6 @@ public class Message {
 
     private int sender;
 
-    private String role;
-
     private LocalDateTime timestamp;
 
     public int getId() {
@@ -52,14 +50,6 @@ public class Message {
 
     public void setSender(int sender) {
         this.sender = sender;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public LocalDateTime getTimestamp() {

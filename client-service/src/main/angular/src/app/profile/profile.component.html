@@ -1,12 +1,11 @@
-    <div class="counsellor-data">
-        <div *isAuthorize="['Customer','Counsellor']">
-           <h3 style="margin-bottom: 50px">Hi..{{userDetails.name}}</h3>
-        </div>
-        <!-- 👇 Content only for Customers -->
-        <div *isAuthorize="['Customer']">
-        <div  *ngIf="counsellors && counsellors.length > 0; " >
+<div class="counsellor-data">
+    <div *isAuthorize="['Customer','Counsellor']">
+        <h3 style="margin-bottom: 50px">Hi..{{ userDetails.name }}</h3>
+    </div>
+    <!-- 👇 Content only for Customers -->
+    <div *isAuthorize="['Customer']">
+        <div *ngIf="counsellors && counsellors.length > 0; ">
             <h5 class="mb-3">Counsellors List:</h5>
-
             <div>
                 <div *ngFor="let counsellor of counsellors" class="col-12 mb-3">
                     <div class="counsellor-card shadow-sm rounded-3">
@@ -37,7 +36,42 @@
                     </div>
                 </div>
             </div>
-
-        </div>
         </div>
     </div>
+
+    <!-- 👇 Content only for Counsellor -->
+    <div *isAuthorize="['Counsellor']">
+        <div *ngIf="customers && customers.length > 0; ">
+            <h5 class="mb-3">Counsellors List:</h5>
+            <div>
+                <div *ngFor="let customer of customers" class="col-12 mb-3">
+                    <div class="counsellor-card shadow-sm rounded-3">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+
+                            <!-- Counsellor Info -->
+                            <div class="d-flex align-items-center">
+
+                                <div>
+                                    <h6 class="card-title mb-1">{{ customer.name }}</h6>
+                                    <p class="card-text mb-0">
+                                        <small class="text-muted">{{ customer.email }}</small>
+                                    </p>
+                                    <p class="card-text">
+                                        <span class="badge bg-primary">{{ customer.role }}</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 👇 Chat Icon Button -->
+                            <button class="btn btn-outline-success btn-sm" (click)="openChat(customer)">
+                                <i class="bi bi-chat-dots"></i> Chat
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

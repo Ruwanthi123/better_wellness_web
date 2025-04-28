@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from '../user';
 import {CognitoService} from "../services/cognito.service";
+import {PROF_PREFIX} from "../constant/common-settings";
 
 @Component({
   selector: 'app-sign-up',
@@ -42,7 +43,7 @@ export class SignUpComponent implements OnInit {
         email: this.user.email,
         role: this.user.role
       }
-      this.httpClient.post('http://localhost:8083/api/profile/createProfile', userData).subscribe({
+      this.httpClient.post(PROF_PREFIX+'/api/profile/createProfile', userData).subscribe({
         next: (response) => {
           console.log('User saved successfully in backend:', response);
           this.router.navigate(['/signIn']);

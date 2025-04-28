@@ -5,8 +5,8 @@ target/
 !**/src/test/**/target/
 
 #angular
-.angular/cache
-node_modules
+/.angular/cache
+/node_modules
 
 .apt_generated
 .classpath

@@ -14,7 +14,7 @@ export class MessageViewComponent implements OnInit, OnDestroy {
     selectedUserID: number | undefined;
     counsellorID: number | undefined;
     loginUserID: number | undefined;
-    receiverName: String | undefined;
+    selectedUserName: String | undefined;
     messages: any[] | undefined ;
 
     newMessage: string = '';
@@ -26,18 +26,17 @@ export class MessageViewComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
-            this.customerID = params['customerID'];
-            this.counsellorID = params['counsellorID'];
-            this.loginUserID = params['loginUser'];
-            this.receiverName = params['receiverName'];
+
+            this.loginUserID = params['loginUserID'];
+            this.selectedUserName = params['selectedUserName'];
             this.selectedUserID = params['selectedUserID'];
 
             console.log('Customer ID:', this.customerID);
             console.log('Counsellor ID:', this.counsellorID);
             console.log('loginUserID:', this.loginUserID);
-            console.log('receiverName:', this.receiverName);
+            console.log('selectedUserName:', this.selectedUserName);
 
-            this.messageServiceService.getAllMessages(this.customerID, this.counsellorID);
+            this.messageServiceService.getAllMessages(this.loginUserID, this.selectedUserID);
         });
 
         this.OnMessageChangeSub =this.messageServiceService.OnMessagesChange.subscribe(
@@ -71,7 +70,7 @@ export class MessageViewComponent implements OnInit, OnDestroy {
                 sender: this.loginUserID,
                 receiver: this.selectedUserID,
                 content: this.newMessage,
-                timestamp: formattedDateTime
+                timestamp: null
             };
 
             this.messageServiceService.sendMessage(messagePayload).subscribe({
