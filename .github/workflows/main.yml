@@ -80,6 +80,9 @@ jobs:
         PROFILE_SUBDOMAIN=$(echo $PROFILE_LB | cut -d'.' -f1)
         sed -i "s|http://[^.]*\.eu-north-1\.elb\.amazonaws\.com/api/message|http://$MESSAGE_SUBDOMAIN.eu-north-1.elb.amazonaws.com/api/message|" $CONFIG_PATH
         sed -i "s|http://[^.]*\.eu-north-1\.elb\.amazonaws\.com/api/profile|http://$PROFILE_SUBDOMAIN.eu-north-1.elb.amazonaws.com/api/profile|" $CONFIG_PATH
-        cd client-service/src/main/angular/src/assets/
-        aws s3 cp config.json s3://better-wellness-live/assets/
+        cd client-service/src/main/angular/
+        npm install
+        npm run build
+        cd client-service/src/main/angular/dist/ng-plus-aws/
+        aws s3 sync . s3://better-wellness-live/
 
