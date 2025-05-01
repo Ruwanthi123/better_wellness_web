@@ -73,3 +73,5 @@ jobs:
         cd ../../../../../../
         kubectl apply -f message-service/deployment.yaml -n ${{ env.KUBE_NAMESPACE }}
         kubectl apply -f profile-service/deployment.yaml -n ${{ env.KUBE_NAMESPACE }}
+        kubectl get svc message-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' n ${{ env.KUBE_NAMESPACE }}
+        kubectl get svc profile-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' n ${{ env.KUBE_NAMESPACE }}
