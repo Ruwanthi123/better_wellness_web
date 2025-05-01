@@ -82,8 +82,8 @@ jobs:
         CONFIG_PATH="client-service/src/main/angular/src/assets/config.json"
         MESSAGE_SUBDOMAIN=$(echo $MESSAGE_LB | cut -d'.' -f1)
         PROFILE_SUBDOMAIN=$(echo $PROFILE_LB | cut -d'.' -f1)
-        sed -i "s|http://[^.]*\.eu-north-1\.elb\.amazonaws\.com/api/message|http://$MESSAGE_SUBDOMAIN.eu-north-1.elb.amazonaws.com/api/message|" $CONFIG_PATH
-        sed -i "s|http://[^.]*\.eu-north-1\.elb\.amazonaws\.com/api/profile|http://$PROFILE_SUBDOMAIN.eu-north-1.elb.amazonaws.com/api/profile|" $CONFIG_PATH
+        sed -i "s|http://message-service.eu-north-1.elb.amazonaws.com|http://$MESSAGE_LB|" $CONFIG_PATH
+        sed -i "s|http://profile-service.eu-north-1.elb.amazonaws.com|http://$PROFILE_LB|" $CONFIG_PATH
         cd client-service/src/main/angular/
         npm install
         npm run build
