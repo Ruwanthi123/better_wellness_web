@@ -1,4 +1,4 @@
 {
-  "messageApiUrl": "https://your-alb-url.amazonaws.com/api/message",
-  "profileApiUrl": "https://your-alb-url.amazonaws.com/api/profile"
+  "messageApiUrl": "https://message-service.eu-north-1.elb.amazonaws.com/api/message",
+  "profileApiUrl": "https://profile-service.eu-north-1.elb.amazonaws.com/api/profile"
 }

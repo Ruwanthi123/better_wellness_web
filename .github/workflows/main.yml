@@ -73,5 +73,13 @@ jobs:
         #cd ../../../../../../
         kubectl apply -f message-service/deployment.yaml -n ${{ env.KUBE_NAMESPACE }}
         kubectl apply -f profile-service/deployment.yaml -n ${{ env.KUBE_NAMESPACE }}
-        kubectl get svc message-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n ${{ env.KUBE_NAMESPACE }}
-        kubectl get svc profile-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n ${{ env.KUBE_NAMESPACE }}
+        MESSAGE_LB=$(kubectl get svc message-service -n better-wellness -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+        PROFILE_LB=$(kubectl get svc profile-service -n better-wellness -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+        CONFIG_PATH="client-service/src/main/angular/src/assets/config.json"
+        MESSAGE_SUBDOMAIN=$(echo $MESSAGE_LB | cut -d'.' -f1)
+        PROFILE_SUBDOMAIN=$(echo $PROFILE_LB | cut -d'.' -f1)
+        sed -i "s|https://[^.]*\.eu-north-1\.elb\.amazonaws\.com/api/message|https://$MESSAGE_SUBDOMAIN.eu-north-1.elb.amazonaws.com/api/message|" $CONFIG_PATH
+        sed -i "s|https://[^.]*\.eu-north-1\.elb\.amazonaws\.com/api/profile|https://$PROFILE_SUBDOMAIN.eu-north-1.elb.amazonaws.com/api/profile|" $CONFIG_PATH
+        cd client-service/src/main/angular/src/assets/
+        aws s3 cp config.json s3://better-wellness-live/assets/
+
