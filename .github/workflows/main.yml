@@ -84,5 +84,6 @@ jobs:
         npm install
         npm run build
         cd dist/ng-plus-aws/
-        aws s3 sync . s3://better-wellness-live/
+        aws s3 cp . s3://better-wellness-live/ --recursive
+
 
