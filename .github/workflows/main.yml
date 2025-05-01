@@ -52,9 +52,7 @@ jobs:
         set -e
 
         if aws cloudformation describe-stacks --stack-name better-wellness-live --region $AWS_REGION >/dev/null 2>&1; then
-          echo "Stack better-wellness-live already exists. Updating the stack."
-          aws cloudformation update-stack --stack-name better-wellness-live --template-body file://amazon-eks.yaml --capabilities CAPABILITY_NAMED_IAM --region $AWS_REGION
-          
+          echo "Stack better-wellness-live already exists. Updating the stack."          
         else
           echo "Stack better-wellness-live does not exist. Creating stack..."
           aws cloudformation create-stack --stack-name better-wellness-live --template-body file://amazon-eks.yaml --capabilities CAPABILITY_NAMED_IAM --region $AWS_REGION
@@ -85,9 +83,7 @@ jobs:
         sed -i "s|profile-service.eu-north-1.elb.amazonaws.com|$PROFILE_LB|" cloudfront.yaml
         
         if aws cloudformation describe-stacks --stack-name better-wellness-live-cf --region $AWS_REGION >/dev/null 2>&1; then
-          echo "Stack better-wellness-live-cf already exists. Updating the stack."
-          aws cloudformation update-stack --stack-name better-wellness-live-cf --template-body file://cloudfront.yaml --capabilities CAPABILITY_NAMED_IAM --region $AWS_REGION
-          
+          echo "Stack better-wellness-live-cf already exists. Updating the stack."          
         else
           echo "Stack better-wellness-live-cf does not exist. Creating stack..."
           aws cloudformation create-stack --stack-name better-wellness-live-cf --template-body file://cloudfront.yaml --capabilities CAPABILITY_NAMED_IAM --region $AWS_REGION
