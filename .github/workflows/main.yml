@@ -52,7 +52,9 @@ jobs:
         set -e
 
         if aws cloudformation describe-stacks --stack-name better-wellness-live --region $AWS_REGION >/dev/null 2>&1; then
-          echo "Stack better-wellness-live already exists. Skipping creation."
+          echo "Stack better-wellness-live already exists. Updating the stack."
+          aws cloudformation update-stack --stack-name better-wellness-live --template-body file://amazon-eks.yaml --capabilities CAPABILITY_NAMED_IAM --region $AWS_REGION
+          
         else
           echo "Stack better-wellness-live does not exist. Creating stack..."
           aws cloudformation create-stack --stack-name better-wellness-live --template-body file://amazon-eks.yaml --capabilities CAPABILITY_NAMED_IAM --region $AWS_REGION
