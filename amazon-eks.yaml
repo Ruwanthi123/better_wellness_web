@@ -281,6 +281,98 @@ Resources:
         - !Ref NodeInstanceType
       AmiType: AL2023_x86_64_STANDARD
 
+## ------------------ Load Balancers ------------------
+
+  MessageServiceALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub "${ClusterName}-message-service-lb"
+      Subnets:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+      SecurityGroups:
+        - !Ref SecurityGroup
+      LoadBalancerAttributes:
+        - Key: idle_timeout.timeout_seconds
+          Value: "60"
+      Scheme: internet-facing
+      Type: application
+      IpAddressType: ipv4
+
+  ProfileServiceALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub "${ClusterName}-profile-service-lb"
+      Subnets:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+      SecurityGroups:
+        - !Ref SecurityGroup
+      LoadBalancerAttributes:
+        - Key: idle_timeout.timeout_seconds
+          Value: "60"
+      Scheme: internet-facing
+      Type: application
+      IpAddressType: ipv4
+
+  ## ------------------ CloudFront for Services ------------------
+  
+  MessageServiceCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Origins:
+          - Id: MessageServiceOrigin
+            DomainName: !GetAtt MessageServiceALB.DNSName 
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+        DefaultCacheBehavior:
+          TargetOriginId: MessageServiceOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE]
+          CachedMethods: [GET, HEAD]
+          ForwardedValues:
+            QueryString: true
+            Headers:
+              - Authorization
+              - Host
+            Cookies:
+              Forward: all
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+
+  ## ------------------ CloudFront for Profile Service ------------------
+  ProfileServiceCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Origins:
+          - Id: ProfileServiceOrigin
+            DomainName: !GetAtt ProfileServiceALB.DNSName
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+        DefaultCacheBehavior:
+          TargetOriginId: ProfileServiceOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE]
+          CachedMethods: [GET, HEAD]
+          ForwardedValues:
+            QueryString: true
+            Headers:
+              - Authorization
+              - Host
+            Cookies:
+              Forward: all
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+      
+
   ## ------------------ Outputs ------------------
 Outputs:
   CloudFrontURL:
