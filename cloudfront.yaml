@@ -20,8 +20,7 @@ Resources:
             DomainName: !Ref MessageServiceALBDNS
             CustomOriginConfig:
               HTTPPort: 80
-              HTTPSPort: 443
-              OriginProtocolPolicy: https-only
+              OriginProtocolPolicy: http-only
         DefaultCacheBehavior:
           TargetOriginId: MessageServiceOrigin
           ViewerProtocolPolicy: redirect-to-https
@@ -47,8 +46,7 @@ Resources:
             DomainName: !Ref ProfileServiceALBDNS
             CustomOriginConfig:
               HTTPPort: 80
-              HTTPSPort: 443
-              OriginProtocolPolicy: https-only
+              OriginProtocolPolicy: http-only
         DefaultCacheBehavior:
           TargetOriginId: ProfileServiceOrigin
           ViewerProtocolPolicy: redirect-to-https
