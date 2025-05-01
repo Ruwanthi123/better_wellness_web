@@ -26,7 +26,7 @@ Resources:
           TargetOriginId: MessageServiceOrigin
           ViewerProtocolPolicy: redirect-to-https
           AllowedMethods: [GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE]
-          CachedMethods: []
+          CachedMethods: [GET, HEAD]
           ForwardedValues:
             QueryString: true
             Headers:
