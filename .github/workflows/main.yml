@@ -83,6 +83,6 @@ jobs:
         cd client-service/src/main/angular/
         npm install
         npm run build
-        cd client-service/src/main/angular/dist/ng-plus-aws/
+        cd dist/ng-plus-aws/
         aws s3 sync . s3://better-wellness-live/
 
