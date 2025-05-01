@@ -4,7 +4,7 @@ import { CognitoService } from './cognito.service';
 @Directive({
   selector: '[isAuthorize]'
 })
-export class AuthorizeService {
+export class AuthorizeDirective {
 
   constructor(private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef,
     private cognitoService: CognitoService) {

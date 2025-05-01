@@ -3,6 +3,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from "@angular/rou
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import { MSG_PREFIX } from '../constant/common-settings';
+import {ConfigService} from "./config.service";
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,8 @@ export class MessageServiceService implements Resolve<any> {
 
     OnMessagesChange: BehaviorSubject<any> = new BehaviorSubject({});
 
-    constructor(private httpClient: HttpClient) {
+    constructor(private httpClient: HttpClient,
+                private configService: ConfigService) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
@@ -27,7 +29,7 @@ export class MessageServiceService implements Resolve<any> {
 
     getAllMessages(sender: number | undefined, receiver: number | undefined) {
         if (sender != null && receiver != null) {
-            const url = MSG_PREFIX + '/api/message/getMessagesBySenderAndReceiver';
+            const url =  this.configService.messageApiUrl + '/api/message/getMessagesBySenderAndReceiver';
             const body = {
                 sender: sender,
                 receiver: receiver
@@ -47,7 +49,7 @@ export class MessageServiceService implements Resolve<any> {
     }
 
     sendMessage(messagePayload: any) {
-        return this.httpClient.post<any>(MSG_PREFIX +'/api/message/saveMessage', messagePayload);
+        return this.httpClient.post<any>( this.configService.messageApiUrl +'/api/message/saveMessage', messagePayload);
     }
 
 

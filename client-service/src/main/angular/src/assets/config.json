@@ -1,4 +1,5 @@
 {
-  "messageApiUrl": "http://message-service.eu-north-1.elb.amazonaws.com",
-  "profileApiUrl": "http://profile-service.eu-north-1.elb.amazonaws.com"
+  "messageApiUrl": "http://localhost:8084",
+  "profileApiUrl": "http://localhost:8083"
 }
+
