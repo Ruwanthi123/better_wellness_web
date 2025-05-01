@@ -14,7 +14,7 @@ jobs:
         node-version: [18.18]
     environment: better-wellness
     env:
-      DOCKER_REPO_URL: ${{ secrets.REPO_URL }}
+      DOCKER_REPO_URL: 750471540463.dkr.ecr.eu-north-1.amazonaws.com
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -41,6 +41,8 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Print Docker Repository URL
+      env:
+        DOCKER_REPO_URL: 750471540463.dkr.ecr.eu-north-1.amazonaws.com
       run: |
         echo "DOCKER_REPO_URL = $DOCKER_REPO_URL"
     
