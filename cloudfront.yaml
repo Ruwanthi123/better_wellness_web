@@ -61,3 +61,17 @@ Resources:
               Forward: all
         ViewerCertificate:
           CloudFrontDefaultCertificate: true
+
+Outputs:
+  MessageServiceCloudFrontURL:
+    Description: "CloudFront URL for the Message Service"
+    Value: !GetAtt MessageServiceCloudFrontDistribution.DomainName
+    Export:
+      Name: MessageServiceCloudFrontURL
+
+  ProfileServiceCloudFrontURL:
+    Description: "CloudFront URL for the Profile Service"
+    Value: !GetAtt ProfileServiceCloudFrontDistribution.DomainName
+    Export:
+      Name: ProfileServiceCloudFrontURL
+
