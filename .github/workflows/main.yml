@@ -66,7 +66,7 @@ jobs:
 
         for SERVICE_NAME in message-service profile-service; do
           cd $SERVICE_NAME
-          docker build -t $SERVICE_NAME:$CURRENT_DATETIME .|
+          docker build -t $SERVICE_NAME:$CURRENT_DATETIME .
           docker tag $SERVICE_NAME:$CURRENT_DATETIME $DOCKER_REPO_URL/$SERVICE_NAME:$CURRENT_DATETIME
           docker tag $SERVICE_NAME:$CURRENT_DATETIME $DOCKER_REPO_URL/$SERVICE_NAME:latest
           docker push $DOCKER_REPO_URL/$SERVICE_NAME:$CURRENT_DATETIME
