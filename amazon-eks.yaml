@@ -213,7 +213,7 @@ Resources:
           TargetOriginId: S3Origin
           ViewerProtocolPolicy: redirect-to-https
           AllowedMethods: [GET, HEAD]
-          CachedMethods: []
+          CachedMethods: [GET, HEAD]
           ForwardedValues:
             QueryString: false
             Cookies:
