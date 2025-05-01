@@ -1,0 +1,65 @@
+Parameters:
+  MessageServiceALBDNS:
+    Type: String
+    Description: DNS name of the Message Service ALB created by Kubernetes
+    Default: message-service.eu-north-1.elb.amazonaws.com
+
+  ProfileServiceALBDNS:
+    Type: String
+    Description: DNS name of the Profile Service ALB created by Kubernetes
+    Default: profile-service.eu-north-1.elb.amazonaws.com
+
+Resources:
+  MessageServiceCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Origins:
+          - Id: MessageServiceOrigin
+            DomainName: !Ref MessageServiceALBDNS
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+        DefaultCacheBehavior:
+          TargetOriginId: MessageServiceOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE]
+          CachedMethods: []
+          ForwardedValues:
+            QueryString: true
+            Headers:
+              - Authorization
+              - Host
+            Cookies:
+              Forward: all
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+
+  ProfileServiceCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Origins:
+          - Id: ProfileServiceOrigin
+            DomainName: !Ref ProfileServiceALBDNS
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+        DefaultCacheBehavior:
+          TargetOriginId: ProfileServiceOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE]
+          CachedMethods: []
+          ForwardedValues:
+            QueryString: true
+            Headers:
+              - Authorization
+              - Host
+            Cookies:
+              Forward: all
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
