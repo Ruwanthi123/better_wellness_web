@@ -1,0 +1,4 @@
+{
+  "messageApiUrl": "https://your-alb-url.amazonaws.com/api/message",
+  "profileApiUrl": "https://your-alb-url.amazonaws.com/api/profile"
+}
