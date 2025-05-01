@@ -30,8 +30,8 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Build Artifacts
-      run: mvn clean install -DskipTests
+    #- name: Build Artifacts
+    #  run: mvn clean install -DskipTests
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -73,5 +73,5 @@ jobs:
         cd ../../../../../../
         kubectl apply -f message-service/deployment.yaml -n ${{ env.KUBE_NAMESPACE }}
         kubectl apply -f profile-service/deployment.yaml -n ${{ env.KUBE_NAMESPACE }}
-        kubectl get svc message-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' n ${{ env.KUBE_NAMESPACE }}
-        kubectl get svc profile-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' n ${{ env.KUBE_NAMESPACE }}
+        kubectl get svc message-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n ${{ env.KUBE_NAMESPACE }}
+        kubectl get svc profile-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n ${{ env.KUBE_NAMESPACE }}
