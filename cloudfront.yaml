@@ -2,12 +2,12 @@ Parameters:
   MessageServiceALBDNS:
     Type: String
     Description: DNS name of the Message Service ALB created by Kubernetes
-    Default: message-service.eu-north-1.elb.amazonaws.com
+    Default: "message-service.eu-north-1.elb.amazonaws.com"
 
   ProfileServiceALBDNS:
     Type: String
     Description: DNS name of the Profile Service ALB created by Kubernetes
-    Default: profile-service.eu-north-1.elb.amazonaws.com
+    Default: "profile-service.eu-north-1.elb.amazonaws.com"
 
 Resources:
   MessageServiceCloudFrontDistribution:
