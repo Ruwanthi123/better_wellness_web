@@ -52,7 +52,7 @@ jobs:
         set -e
 
         if aws cloudformation describe-stacks --stack-name better-wellness-live --region $AWS_REGION >/dev/null 2>&1; then
-          echo "Stack better-wellness-live already exists. Skipping creation."
+          echo "Stack better-wellness-live already exists. Updating the stack."          
         else
           echo "Stack better-wellness-live does not exist. Creating stack..."
           aws cloudformation create-stack --stack-name better-wellness-live --template-body file://amazon-eks.yaml --capabilities CAPABILITY_NAMED_IAM --region $AWS_REGION
@@ -79,15 +79,27 @@ jobs:
         kubectl apply -f profile-service/deployment.yaml -n ${{ env.KUBE_NAMESPACE }}
         MESSAGE_LB=$(kubectl get svc message-service -n better-wellness -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
         PROFILE_LB=$(kubectl get svc profile-service -n better-wellness -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+        sed -i "s|message-service.eu-north-1.elb.amazonaws.com|$MESSAGE_LB|" cloudfront.yaml
+        sed -i "s|profile-service.eu-north-1.elb.amazonaws.com|$PROFILE_LB|" cloudfront.yaml
+        
+        if aws cloudformation describe-stacks --stack-name better-wellness-live-cf --region $AWS_REGION >/dev/null 2>&1; then
+          echo "Stack better-wellness-live-cf already exists. Updating the stack."          
+        else
+          echo "Stack better-wellness-live-cf does not exist. Creating stack..."
+          aws cloudformation create-stack --stack-name better-wellness-live-cf --template-body file://cloudfront.yaml --capabilities CAPABILITY_NAMED_IAM --region $AWS_REGION
+          aws cloudformation wait stack-create-complete --stack-name better-wellness-live-cf --region $AWS_REGION
+        fi
+        
         CONFIG_PATH="client-service/src/main/angular/src/assets/config.json"
-        MESSAGE_SUBDOMAIN=$(echo $MESSAGE_LB | cut -d'.' -f1)
-        PROFILE_SUBDOMAIN=$(echo $PROFILE_LB | cut -d'.' -f1)
-        sed -i "s|http://message-service.eu-north-1.elb.amazonaws.com|http://$MESSAGE_LB|" $CONFIG_PATH
-        sed -i "s|http://profile-service.eu-north-1.elb.amazonaws.com|http://$PROFILE_LB|" $CONFIG_PATH
+        MESSAGE_CF=$(aws cloudformation describe-stacks --stack-name better-wellness-live-cf --query "Stacks[0].Outputs[?OutputKey=='MessageServiceCloudFrontURL'].OutputValue" --output text)
+        PROFILE_CF=$(aws cloudformation describe-stacks --stack-name better-wellness-live-cf --query "Stacks[0].Outputs[?OutputKey=='ProfileServiceCloudFrontURL'].OutputValue" --output text)
+        sed -i "s|http://message-service.eu-north-1.elb.amazonaws.com|https://$MESSAGE_CF|" $CONFIG_PATH
+        sed -i "s|http://profile-service.eu-north-1.elb.amazonaws.com|https://$PROFILE_CF|" $CONFIG_PATH
         cd client-service/src/main/angular/
         npm install
         npm run build
         cd dist/ng-plus-aws/
         aws s3 cp . s3://better-wellness-live/ --recursive
+        
 
 
