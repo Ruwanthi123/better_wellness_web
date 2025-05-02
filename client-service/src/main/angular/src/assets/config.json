@@ -1,5 +1,5 @@
 {
-  "messageApiUrl": "http://message-service.eu-north-1.elb.amazonaws.com",
-  "profileApiUrl": "http://profile-service.eu-north-1.elb.amazonaws.com"
+  "messageApiUrl": "http://aadbf11d52ab9425b8df399c65563568-1886596803.eu-north-1.elb.amazonaws.com",
+  "profileApiUrl": "http://ab062be1dee0c460b900f709a45f5029-1712574348.eu-north-1.elb.amazonaws.com"
 }
 
