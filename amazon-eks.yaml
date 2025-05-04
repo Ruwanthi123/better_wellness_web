@@ -275,7 +275,7 @@ Resources:
       NodegroupName: !Sub "${ClusterName}-node-group"
       ScalingConfig:
         DesiredSize: 1
-        MaxSize: 1
+        MaxSize: 2
         MinSize: 1
       InstanceTypes:
         - !Ref NodeInstanceType
